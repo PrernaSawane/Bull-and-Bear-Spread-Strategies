@@ -1,0 +1,5 @@
+Metric,Formula,Value (Computed)
+Maximum Profit,K2 - K1 - D_bull,$6.02
+Maximum Loss,-D_bull,-$3.98
+Breakeven,K1 + D_bull,$103.98
+Reward-to-Risk Ratio,Max Profit / |Max Loss|,1.51:1

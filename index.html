@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bull & Bear Options Spread Terminal | Quantitative Derivatives Engine</title>
+    <meta name="description" content="Institutional-grade options analytics platform for Bull Call and Bear Put vertical spreads using Black-Scholes-Merton and 10,000-path Monte Carlo simulations.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">📈</div>
+            <div class="brand-text">
+                <span class="brand-title">QUANT SPREAD TERMINAL</span>
+                <span class="brand-sub">Financial Derivatives • Group 12 Research</span>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <button id="btnPresetPaper" class="btn btn-outline" title="Load exact baseline parameters from Course Project Report">
+                📄 Load Paper Baseline ($S_0 = \$100$)
+            </button>
+            <div class="status-badge">
+                <span class="pulse-dot"></span>
+                <span>Engine Active</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Application Container -->
+    <div class="app-layout">
+        <!-- Sidebar Controls -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3 class="section-title">STRATEGY SELECTOR</h3>
+                <div class="strategy-toggle-group">
+                    <button id="btnSelectBull" class="strategy-btn active">
+                        <span class="strat-name">Bull Call Spread</span>
+                        <span class="strat-bias bullish">Moderately Bullish</span>
+                    </button>
+                    <button id="btnSelectBear" class="strategy-btn">
+                        <span class="strat-name">Bear Put Spread</span>
+                        <span class="strat-bias bearish">Moderately Bearish</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Asset & Market Selection -->
+            <div class="sidebar-section">
+                <h3 class="section-title">UNDERLYING ASSET</h3>
+                <div class="input-group">
+                    <label for="tickerSelect">Select Ticker Preset</label>
+                    <select id="tickerSelect" class="form-select">
+                        <option value="BENCHMARK" selected>BENCHMARK (Paper Baseline S0=$100)</option>
+                        <option value="AAPL">AAPL (Apple Inc. ~$220)</option>
+                        <option value="SPY">SPY (S&P 500 ETF ~$560)</option>
+                        <option value="QQQ">QQQ (Invesco QQQ ~$480)</option>
+                        <option value="NVDA">NVDA (NVIDIA Corp ~$115)</option>
+                        <option value="TSLA">TSLA (Tesla Inc ~$230)</option>
+                    </select>
+                </div>
+                <div class="input-row">
+                    <div class="input-col">
+                        <label for="inputSpot">Spot Price ($S_0$)</label>
+                        <input type="number" id="inputSpot" class="form-input" value="100.00" step="1.0" min="1.0">
+                    </div>
+                    <div class="input-col">
+                        <label for="inputVol">Implied Vol (σ %)</label>
+                        <input type="number" id="inputVol" class="form-input" value="20.0" step="1.0" min="1.0" max="200.0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strikes & Expiry -->
+            <div class="sidebar-section">
+                <h3 class="section-title">STRIKES & EXPIRATION</h3>
+                <div class="input-row">
+                    <div class="input-col">
+                        <label for="inputK1">Lower Strike ($K_1$)</label>
+                        <input type="number" id="inputK1" class="form-input" value="100.00" step="1.0" min="1.0">
+                    </div>
+                    <div class="input-col">
+                        <label for="inputK2">Higher Strike ($K_2$)</label>
+                        <input type="number" id="inputK2" class="form-input" value="110.00" step="1.0" min="1.0">
+                    </div>
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <span>Days to Expiry (DTE)</span>
+                        <span id="dteLabel" class="slider-val">182 Days (0.50 yr)</span>
+                    </div>
+                    <input type="range" id="sliderDte" min="7" max="365" value="182" class="range-slider">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <span>Risk-Free Rate ($r$)</span>
+                        <span id="rateLabel" class="slider-val">5.0%</span>
+                    </div>
+                    <input type="range" id="sliderRate" min="0.0" max="10.0" step="0.25" value="5.0" class="range-slider">
+                </div>
+            </div>
+
+            <!-- Sizing & Execution Friction -->
+            <div class="sidebar-section">
+                <h3 class="section-title">CONTRACT SIZING & COSTS</h3>
+                <div class="input-row">
+                    <div class="input-col">
+                        <label for="inputContracts">Contracts (100 sh)</label>
+                        <input type="number" id="inputContracts" class="form-input" value="1" min="1" max="500">
+                    </div>
+                    <div class="input-col">
+                        <label for="inputComm">Comm / Leg ($)</label>
+                        <input type="number" id="inputComm" class="form-input" value="0.65" step="0.05" min="0.0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Info Footnote -->
+            <div class="sidebar-footer">
+                <p>Black-Scholes-Merton European Model</p>
+                <p>Formula: $C = S_0 N(d_1) - K e^{-rT} N(d_2)$</p>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="content-area">
+            <!-- Key Performance Metrics Ribbon -->
+            <section class="kpi-ribbon">
+                <div class="kpi-card">
+                    <span class="kpi-label">NET DEBIT / SHARE</span>
+                    <span id="kpiNetDebit" class="kpi-val">$3.98</span>
+                    <span id="kpiDebitSub" class="kpi-sub">Total: $398.23</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">BREAKEVEN PRICE</span>
+                    <span id="kpiBreakeven" class="kpi-val highlight-amber">$103.98</span>
+                    <span id="kpiBreakevenSub" class="kpi-sub">+3.98% from Spot</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">MAXIMUM PROFIT</span>
+                    <span id="kpiMaxProfit" class="kpi-val highlight-green">+$601.77</span>
+                    <span id="kpiProfitSub" class="kpi-sub">$6.02 / share</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">MAXIMUM LOSS</span>
+                    <span id="kpiMaxLoss" class="kpi-val highlight-red">-$398.23</span>
+                    <span id="kpiLossSub" class="kpi-sub">-$3.98 / share</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">REWARD-TO-RISK</span>
+                    <span id="kpiRR" class="kpi-val">1.51 : 1</span>
+                    <span id="kpiRRSub" class="kpi-sub">Width: $10.00</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">TOTAL OUTLAY</span>
+                    <span id="kpiOutlay" class="kpi-val">$399.53</span>
+                    <span class="kpi-sub">Incl. $1.30 Comms</span>
+                </div>
+            </section>
+
+            <!-- Workspace Tabs -->
+            <div class="tab-container">
+                <nav class="tab-nav">
+                    <button class="tab-btn active" data-tab="tab-payoff">📈 Expiration Payoff & Profit</button>
+                    <button class="tab-btn" data-tab="tab-sim">🎲 Monte Carlo Simulation & POP</button>
+                    <button class="tab-btn" data-tab="tab-market">📊 Market Context & Strikes</button>
+                    <button class="tab-btn" data-tab="tab-greeks">⚡ Analytical Greeks</button>
+                    <button class="tab-btn" data-tab="tab-comparison">📑 Paper Baseline Comparison</button>
+                </nav>
+
+                <!-- TAB 1: Payoff & Profit Curve -->
+                <div id="tab-payoff" class="tab-pane active">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">Terminal Payoff & Profit Profile</h2>
+                                <p class="card-desc">Piecewise linear payoff at expiration with net profit curve, profit/loss zones, and breakeven threshold.</p>
+                            </div>
+                            <div class="legend-badges">
+                                <span class="badge badge-grey">Dashed: Gross Payoff</span>
+                                <span class="badge badge-accent">Solid: Net Profit</span>
+                                <span class="badge badge-green">Green: Profit Zone</span>
+                                <span class="badge badge-red">Red: Loss Zone</span>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="chartPayoff"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: Monte Carlo Simulation & POP -->
+                <div id="tab-sim" class="tab-pane">
+                    <div class="sim-grid">
+                        <div class="card sim-controls-card">
+                            <h3 class="card-title">Simulation Parameters</h3>
+                            <p class="card-desc">Simulates continuous Geometric Brownian Motion (GBM) trajectories to compute empirical Probability of Profit (POP).</p>
+                            
+                            <div class="control-row">
+                                <label for="mcPathsSelect">Simulation Paths</label>
+                                <select id="mcPathsSelect" class="form-select">
+                                    <option value="10000" selected>10,000 Paths (Standard)</option>
+                                    <option value="5000">5,000 Paths (Fast)</option>
+                                    <option value="25000">25,000 Paths (High Precision)</option>
+                                </select>
+                            </div>
+
+                            <button id="btnRunSimulation" class="btn btn-primary btn-block">
+                                🔄 Re-run Simulation
+                            </button>
+
+                            <!-- Algorithmic Verdict Box -->
+                            <div id="verdictBox" class="verdict-box">
+                                <span class="verdict-tag">ALGORITHMIC VERDICT</span>
+                                <h4 id="verdictTitle" class="verdict-title">FAVORABLE RISK/REWARD</h4>
+                                <div class="verdict-score">
+                                    <span>Quant Score:</span>
+                                    <span id="verdictScoreVal" class="score-badge">68 / 100</span>
+                                </div>
+                                <ul id="verdictDrivers" class="verdict-list">
+                                    <li>Asymmetric payout ratio exceeds 1.50:1</li>
+                                    <li>Probability of Profit within statistical expectation</li>
+                                    <li>Cost-efficient debit entry in moderate volatility regime</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card sim-chart-card">
+                            <div class="card-header">
+                                <div>
+                                    <h3 class="card-title">Terminal PnL Outcome Distribution (10,000 Paths)</h3>
+                                    <p class="card-desc">Simulated dollar profit/loss distribution with $0 breakeven line and tail risk markers.</p>
+                                </div>
+                                <div class="sim-stats-ribbon">
+                                    <div class="sim-stat">
+                                        <span class="stat-label">POP:</span>
+                                        <span id="simPopVal" class="stat-num text-green">42.8%</span>
+                                    </div>
+                                    <div class="sim-stat">
+                                        <span class="stat-label">Expected PnL:</span>
+                                        <span id="simExpPnl" class="stat-num">+$4.12</span>
+                                    </div>
+                                    <div class="sim-stat">
+                                        <span class="stat-label">95% VaR:</span>
+                                        <span id="simVarVal" class="stat-num text-red">-$398.23</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="chartMonteCarlo"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: Market Context & Candlestick -->
+                <div id="tab-market" class="tab-pane">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">6-Month Price Action vs Strategy Strikes</h2>
+                                <p class="card-desc">Historical price action overlaid with Lower Strike ($K_1$), Higher Strike ($K_2$), and Breakeven price.</p>
+                            </div>
+                            <div class="legend-badges">
+                                <span class="badge badge-amber">K1 Strike Barrier</span>
+                                <span class="badge badge-cyan">K2 Strike Barrier</span>
+                                <span class="badge badge-white">Breakeven</span>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="chartCandle"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: Analytical Greeks -->
+                <div id="tab-greeks" class="tab-pane">
+                    <div class="greeks-grid">
+                        <div class="card">
+                            <h3 class="card-title">Net Position Greeks</h3>
+                            <div class="greeks-table-wrapper">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Greek</th>
+                                            <th>Symbol</th>
+                                            <th>Long Leg</th>
+                                            <th>Short Leg</th>
+                                            <th>Net Position</th>
+                                            <th>Interpretation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="greeksTableBody">
+                                        <!-- Dynamically Populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3 class="card-title">Option Pricing Breakdown (BSM)</h3>
+                            <div class="leg-breakdown">
+                                <div class="leg-box">
+                                    <span class="leg-title" id="leg1Title">Long Call ($K_1 = 100)</span>
+                                    <div class="leg-price" id="leg1Price">$6.8887</div>
+                                    <div class="leg-detail" id="leg1Detail">Intrinsic: $0.00 | Time: $6.89</div>
+                                </div>
+                                <div class="leg-box">
+                                    <span class="leg-title" id="leg2Title">Short Call ($K_2 = 110)</span>
+                                    <div class="leg-price" id="leg2Price">$2.9065</div>
+                                    <div class="leg-detail" id="leg2Detail">Intrinsic: $0.00 | Time: $2.91</div>
+                                </div>
+                                <div class="leg-box net">
+                                    <span class="leg-title">Net Debit Paid</span>
+                                    <div class="leg-price" id="legNetPrice">$3.9823</div>
+                                    <div class="leg-detail">Max Risk Capped to Outlay</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 5: Academic Baseline Comparison -->
+                <div id="tab-comparison" class="tab-pane">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">Academic Report Baseline Verification (Group 12)</h2>
+                                <p class="card-desc">Exact reproduction and comparison against the course project report's Table 1, 2, 3, and 4.</p>
+                            </div>
+                        </div>
+                        <div class="comparison-grid">
+                            <div class="comp-box">
+                                <h4>Table 1: Bull Call Spread ($100 / $110)</h4>
+                                <table class="data-table">
+                                    <tr><td><b>Maximum Profit</b></td><td>$6.02 (Computed: $6.0177)</td></tr>
+                                    <tr><td><b>Maximum Loss</b></td><td>-$3.98 (Computed: -$3.9823)</td></tr>
+                                    <tr><td><b>Breakeven</b></td><td>$103.98 (Computed: $103.9823)</td></tr>
+                                    <tr><td><b>Reward-to-Risk</b></td><td>1.51 : 1</td></tr>
+                                </table>
+                            </div>
+                            <div class="comp-box">
+                                <h4>Table 2: Bear Put Spread ($90 / $100)</h4>
+                                <table class="data-table">
+                                    <tr><td><b>Maximum Profit</b></td><td>$6.86 (Computed: $6.8567)</td></tr>
+                                    <tr><td><b>Maximum Loss</b></td><td>-$3.14 (Computed: -$3.1433)</td></tr>
+                                    <tr><td><b>Breakeven</b></td><td>$96.86 (Computed: $96.8567)</td></tr>
+                                    <tr><td><b>Reward-to-Risk</b></td><td>2.18 : 1 (+44% Superior)</td></tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="asymmetry-callout">
+                            <h4>💡 Why Does the Bear Put Spread Have Superior Reward-to-Risk (2.18:1 vs 1.51:1)?</h4>
+                            <p>Under the Black-Scholes-Merton model, the risk-neutral forward price is $F = S_0 e^{rT} = \$100 \times e^{0.05 \times 0.5} = \$102.53$. 
+                            Because the forward price drifts upward with the positive risk-free rate, the long call at $K=100$ is effectively in-the-money relative to forward price ($C_1 = \$6.89$). Conversely, the long put at $K=100$ is out-of-the-money relative to the forward price ($P_2 = \$4.42$). 
+                            This structural time-value discount makes the Bear Put debit spread cost only $3.14 vs $3.98, unlocking a significantly higher profit ceiling ($6.86 vs $6.02) across the same $10 spread width.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Application Script -->
+    <script src="app.js"></script>
+</body>
+</html>

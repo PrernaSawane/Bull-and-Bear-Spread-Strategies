@@ -1,0 +1,12 @@
+Feature,Bull Call Spread,Bear Put Spread
+Market Outlook,Moderately bullish,Moderately bearish
+Option types used,Two calls,Two puts
+Cash flow at entry,Debit,Debit
+Net Debit,$3.98,$3.14
+Maximum Profit,$6.02,$6.86
+Maximum Loss,-$3.98,-$3.14
+Breakeven,$103.98,$96.86
+Reward-to-Risk Ratio,1.51:1,2.18:1
+Profit zone,ST > $103.98,ST < $96.86
+Theta effect,Negative (hurts),Negative (hurts)
+Vega effect,Positive (hurts on entry),Positive (hurts on entry)

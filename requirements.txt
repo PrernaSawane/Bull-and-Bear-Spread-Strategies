@@ -1,0 +1,16 @@
+# Core Numerical & Scientific Computing
+numpy>=1.24.0
+scipy>=1.10.0
+pandas>=2.0.0
+
+# Financial Data & Market Fetching
+yfinance>=0.2.30
+
+# Visualization & Interactive Dashboards
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.15.0
+streamlit>=1.25.0
+
+# Testing & Quality Assurance
+pytest>=7.4.0

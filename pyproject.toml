@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bull-bear-spread-analyzer"
+version = "1.0.0"
+description = "Quantitative Financial Engineering engine for Bull and Bear vertical options spread strategies using Black-Scholes-Merton and Monte Carlo simulations."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Sawane Prerna Bharat", email = "prerna.sawane@example.com"},
+    {name = "Financial Derivatives Group 12"}
+]
+keywords = [
+    "quantitative-finance",
+    "derivatives",
+    "options-trading",
+    "black-scholes",
+    "monte-carlo",
+    "vertical-spreads",
+    "bull-call-spread",
+    "bear-put-spread",
+    "streamlit"
+]
+dependencies = [
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+    "pandas>=2.0.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "plotly>=5.15.0",
+    "streamlit>=1.25.0",
+    "yfinance>=0.2.30"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

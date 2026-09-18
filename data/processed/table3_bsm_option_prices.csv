@@ -1,0 +1,7 @@
+Strategy,Leg,Type,Strike,Premium ($)
+Bull Call Spread,Long,Call,$100,6.8887
+Bull Call Spread,Short,Call,$110,2.9065
+Bull Call Spread,Net,Debit,-,3.9823
+Bear Put Spread,Long,Put,$100,4.4197
+Bear Put Spread,Short,Put,$90,1.2764
+Bear Put Spread,Net,Debit,-,3.1433
