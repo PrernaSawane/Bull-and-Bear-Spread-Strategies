@@ -1,7 +1,7 @@
 # Bull and Bear Spread Strategies in Options Markets
 ## Comprehensive Quantitative Research Report & Mathematical Foundations
-**Financial Derivatives — Course Project Report (Group 12)**  
-**Contributors:** Jash Bharat Pasad, Jatin Agarwal, Kalabandi Pramith Joy, Sawane Prerna Bharat, Shrey Agarwal  
+**Financial Modelling Course Project — Mentored by Prof. Mithun Radhakrishna**  
+**Research Team (Group 12):** Jash Bharat Pasad, Jatin Agarwal, Kalabandi Pramith Joy, Sawane Prerna Bharat, Shrey Agarwal  
 
 ---
 
@@ -138,3 +138,18 @@ $$S_T^{(i)} = S_0 \exp\left(\left(\mu - \frac{1}{2}\sigma^2\right)T + \sigma \sq
 3. **Execution Protocol:**
    - Deploy **Bull Call Spreads** when IV Rank $< 35\%$ prior to anticipated positive fundamental catalysts.
    - Deploy **Bear Put Spreads** as cost-effective downside portfolio hedges when systemic volatility is underpriced.
+
+---
+
+## 7. Academic Course Context & Acknowledgments
+
+This research paper and mathematical codebase were prepared for the **Financial Modelling** course under the course mentorship of **Prof. Mithun Radhakrishna**.
+
+- **Course:** Financial Modelling
+- **Faculty Mentor:** Prof. Mithun Radhakrishna
+- **Authors & Research Team (Group 12):**
+  - Jash Bharat Pasad
+  - Jatin Agarwal
+  - Kalabandi Pramith Joy
+  - Sawane Prerna Bharat
+  - Shrey Agarwal

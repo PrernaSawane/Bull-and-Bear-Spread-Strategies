@@ -1,7 +1,7 @@
 /**
  * Quantitative Options Spread Terminal - Core Engine
  * Black-Scholes-Merton Analytics, Monte Carlo Simulation & Interactive Visualizations
- * Financial Derivatives - Group 12
+ * Financial Modelling - Prof. Mithun Radhakrishna (Group 12)
  */
 
 (function () {

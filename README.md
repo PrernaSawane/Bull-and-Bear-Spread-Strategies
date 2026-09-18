@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Quantitative Finance](https://img.shields.io/badge/Quantitative-Derivatives%20Engine-blueviolet.svg)](#)
 
-> **Academic Project Reference:** Financial Derivatives Course Project Report (Group 12)  
+> **Academic Course Project:** Financial Modelling Course Project under **Prof. Mithun Radhakrishna** (Group 12)  
 > **Authors:** Jash Bharat Pasad, Jatin Agarwal, Kalabandi Pramith Joy, Sawane Prerna Bharat, Shrey Agarwal  
 > **Live Interactive Web Terminal:** [**https://prernasawane.github.io/Bull-and-Bear-Spread-Strategies/**](https://prernasawane.github.io/Bull-and-Bear-Spread-Strategies/)  
 > **Local Standalone Terminal:** Double-click [**`index.html`**](index.html) in any browser (zero dependencies) or run `python -m http.server 8088`!  
@@ -191,6 +191,23 @@ python -m http.server 8088
 ```bash
 streamlit run app.py
 ```
+
+---
+
+## 🎓 Academic Course Project & Mentorship
+
+This quantitative research codebase and terminal were engineered as the capstone course project for the **Financial Modelling** course under the academic mentorship of **Prof. Mithun Radhakrishna**.
+
+- **Course:** Financial Modelling
+- **Faculty Mentor:** Prof. Mithun Radhakrishna
+- **Authors & Research Team (Group 12):**
+  - Jash Bharat Pasad
+  - Jatin Agarwal
+  - Kalabandi Pramith Joy
+  - Sawane Prerna Bharat
+  - Shrey Agarwal
+
+---
 
 ## 📄 License
 This project is open-source software licensed under the [MIT License](LICENSE).

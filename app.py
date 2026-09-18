@@ -1,7 +1,6 @@
 """Interactive Trading Terminal & Algorithmic Options Spread Engine.
 
-Recreates and elevates the interactive dashboard described in Section 9
-of the Financial Derivatives Project Report.
+Financial Modelling Course Project under Prof. Mithun Radhakrishna (Group 12).
 Features:
 - Live/Historical Candlestick Chart with overlaid strike barriers (K1, K2)
 - Real-time Black-Scholes pricing and dynamic risk metrics
@@ -419,7 +418,7 @@ with tab_greeks:
 # TAB 5: Academic Paper Benchmark Reproduction
 # ------------------------------------------------------------------------------
 with tab_report:
-    st.subheader("📑 Reproduction of Academic Report Baseline (Group 12)")
+    st.subheader("📑 Reproduction of Academic Baseline (Financial Modelling • Prof. Mithun Radhakrishna)")
     st.markdown(r"""
     **Baseline Inputs from Report:**  
     $S_0 = \$100.00$, $T = 0.50\text{ yr}$, $r = 5.0\%$, $\sigma = 20.0\%$  

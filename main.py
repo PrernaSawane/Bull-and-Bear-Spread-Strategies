@@ -1,7 +1,8 @@
 """CLI Pipeline Runner for Bull & Bear Spread Quantitative Analysis.
 
 Replicates all numerical results, academic tables, sensitivity analyses,
-and publication figures from the Financial Derivatives Project Report.
+and publication figures from the Financial Modelling Project Report
+under Prof. Mithun Radhakrishna (Group 12).
 """
 
 import sys
@@ -67,7 +68,7 @@ def print_and_save_table(data, csv_path):
 def run_pipeline():
     print("=" * 76)
     print("  BULL AND BEAR SPREAD STRATEGIES IN OPTIONS MARKETS")
-    print("  Financial Derivatives Quantitative Engine (Course Project Group 12)")
+    print("  Financial Modelling Course Project — Prof. Mithun Radhakrishna (Group 12)")
     print("=" * 76)
 
     # 1. Instantiate Strategies with Report Baseline Parameters

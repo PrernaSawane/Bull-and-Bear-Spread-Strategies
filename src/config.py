@@ -1,6 +1,7 @@
 """Configuration and baseline parameters for Bull and Bear Spread Analysis.
 
-Matches the baseline parameters from Financial Derivatives Project Report:
+Matches the baseline parameters from the Financial Modelling Project Report
+under Prof. Mithun Radhakrishna (Group 12):
 - S0 = $100.00
 - Bull Call Spread: K1 = $100.00, K2 = $110.00
 - Bear Put Spread:  K1 = $90.00,  K2 = $100.00

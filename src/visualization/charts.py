@@ -1,7 +1,7 @@
 """Publication-grade visualization suite for options spread analysis.
 
 Generates 300 DPI figures matching Figure 1, Figure 2, and Figure 3 from the
-Financial Derivatives project report:
+Financial Modelling project report (Prof. Mithun Radhakrishna, Group 12):
 - Figure 1: Payoff and profit diagrams at expiration for Bull Call and Bear Put spreads
 - Figure 2: Sensitivity analysis (Profit vs Volatility, Profit vs Time to Expiry)
 - Figure 3: Monte Carlo simulation terminal PnL distribution and multi-path fan charts
