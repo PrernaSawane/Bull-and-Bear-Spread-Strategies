@@ -192,16 +192,5 @@ python -m http.server 8088
 streamlit run app.py
 ```
 
----
-
-## 🎯 Career & Interview Guide
-
-See [`docs/INTERVIEW_TALKING_POINTS.md`](docs/INTERVIEW_TALKING_POINTS.md) for complete preparation:
-- **Resume Ready Bullet:**
-  > *"Engineered an institutional-grade Quantitative Options Spread Engine in Python evaluating Bull Call and Bear Put vertical debit spreads via closed-form Black-Scholes-Merton and 10,000-path Monte Carlo simulations; uncovered a 44% Reward-to-Risk asymmetry (2.18:1 vs 1.51:1) driven by interest-rate forward drift and built an interactive Streamlit terminal."*
-- **10 In-Depth Technical Q&As** covering skew, pin risk, Gamma curvature, Put-Call Parity arbitrage, and Delta vs. Monte Carlo Probability of Profit.
-
----
-
 ## 📄 License
 This project is open-source software licensed under the [MIT License](LICENSE).
