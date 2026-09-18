@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Quantitative Finance](https://img.shields.io/badge/Quantitative-Derivatives%20Engine-blueviolet.svg)](#)
 
-> **Academic Course Project:** Financial Modelling Course Project under **Prof. Mithun Radhakrishna** (Group 12)  
+> **Academic Course Project:** Financial Modelling Course Project under **Prof. Mithun Radhakrishna**  
 > **Authors:** Jash Bharat Pasad, Jatin Agarwal, Kalabandi Pramith Joy, Sawane Prerna Bharat, Shrey Agarwal  
 > **Live Interactive Web Terminal:** [**https://prernasawane.github.io/Bull-and-Bear-Spread-Strategies/**](https://prernasawane.github.io/Bull-and-Bear-Spread-Strategies/)  
 > **Local Standalone Terminal:** Double-click [**`index.html`**](index.html) in any browser (zero dependencies) or run `python -m http.server 8088`!  
